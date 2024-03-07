@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Custom Imports
 import 'package:trip/widgets/input_widget.dart';
+import 'package:trip/widgets/login_button.dart';
 
 // Login Page
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   // Variables to store the username & password
+  bool isPressed = false;
   String? username;
   String? password;
 
@@ -71,8 +73,23 @@ class _LoginPageState extends State<LoginPage> {
               password = text;
             },
           ),
+          const SizedBox(height: 45,),
+          LoginButton(
+            title: "登录",
+            isPressed: isPressed,
+            onPressed: () => _login(),
+          )
         ],
       ),
     );
+  }
+
+  void _login() {
+    print("login the application...");
+  }
+
+  void _checkInput() {
+    bool enable;
+
   }
 }
