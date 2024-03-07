@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Custom Imports
+import 'package:trip/widgets/input_widget.dart';
+
 // Login Page
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -48,13 +51,26 @@ class _LoginPageState extends State<LoginPage> {
       right: 20,
       // ListView provides a scrolling view which is good for small screen devices.
       child: ListView(
-        children: const [
-          SizedBox(height: 100, width: 1,),
-          Text(
+        children: [
+          const SizedBox(height: 100, width: 1,),
+          const Text(
             "账号密码登录",
             style: TextStyle(fontSize: 26, color: Colors.white),
           ),
-          SizedBox(height: 40,)
+          const SizedBox(height: 40,),
+          InputWidget(
+            "请输入账号",
+            onChanged: (text){
+              username = text;
+            },
+          ),
+          const SizedBox(height: 10,),
+          InputWidget(
+            "请输入密码",
+            onChanged: (text) {
+              password = text;
+            },
+          ),
         ],
       ),
     );
