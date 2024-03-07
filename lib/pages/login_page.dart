@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // 登录界面
 class LoginPage extends StatefulWidget {
@@ -10,18 +9,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String name = dotenv.get("NAME", fallback: "");
 
   String? username;
   String? password;
 
   @override
   Widget build(BuildContext context) {
-    print("name: $name");
     return Scaffold(
       body: Stack(
         children: [
-          ..._background()
+          ..._background(),
+          _content()
         ],
       )
     );
@@ -35,5 +33,18 @@ class _LoginPageState extends State<LoginPage> {
     ];
   }
 
-
+  _content() {
+    return Positioned.fill(
+      left: 20,
+      right: 20,
+      // 适配小屏幕手机可以支持滚动
+      child: ListView(
+        children: const [
+          SizedBox(height: 100, width: 1,),
+          Text("账号密码登录", style: TextStyle(fontSize: 26, color: Colors.white),),
+          SizedBox(height: 40,)
+        ],
+      ),
+    );
+  }
 }
