@@ -7,7 +7,6 @@
 .atom/
 .buildlog/
 .history
-.images/
 .svn/
 *.env
 migrate_working_dir/
