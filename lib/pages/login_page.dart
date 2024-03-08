@@ -8,7 +8,7 @@ import 'package:trip/widgets/login_button.dart';
 
 import '../utils/string_util.dart';
 
-// Login Page
+// LoginPage is a statefulWidget which allows for mutable state within the widget.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 

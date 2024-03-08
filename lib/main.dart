@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:trip/navigator/tab_navigator.dart';
 
 // Custom imports pages
-import 'package:trip/pages/home_page.dart';
 import 'package:trip/pages/login_page.dart';
 // Custom imports utils
 import 'package:trip/dao/login_dao.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           ScreenAdapter.init(context);
           if(snapshot.connectionState == ConnectionState.done) {
             if(LoginDao.getToken() != null) {
-              return const HomePage();
+              return const TabNavigator();
             }else {
               return const LoginPage();
             }

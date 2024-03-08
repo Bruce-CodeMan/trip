@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+
+// Custom imports
 import 'package:trip/utils/cache_util.dart';
 import 'package:trip/utils/navigator_util.dart';
 
