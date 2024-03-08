@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip/dao/login_dao.dart';
 
 // Custom Imports
 import 'package:trip/widgets/input_widget.dart';
@@ -76,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               password = text;
               _checkInput();
             },
+            obscureText: true,
           ),
           const SizedBox(height: 45,),
           LoginButton(
@@ -88,8 +90,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() {
-    print("login the application...");
+  void _login() async {
+    var result = LoginDao.login(username: username!, password: password!);
+    print("result: $result");
   }
 
   void _checkInput() {
