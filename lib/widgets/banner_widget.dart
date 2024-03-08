@@ -47,7 +47,12 @@ class _BannerWidgetState extends State<BannerWidget> {
               });
             }
           )
-        )
+        ),
+        Positioned(
+          bottom: 10,
+            left: 0,
+            right: 0,
+            child: _indicator())
       ],
     );
   }
@@ -63,6 +68,30 @@ class _BannerWidgetState extends State<BannerWidget> {
         //TODO, NavigatorUtil
       },
       child: Image.network(imgUrl, width: width, fit: BoxFit.cover,),
+    );
+  }
+
+  /// Builds a row of indicator dots to represent the banners
+  ///
+  /// It creates a row of small dots
+  _indicator() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widget.bannerList.asMap().entries.map((entry){
+        return GestureDetector(
+          onTap: () => _controller.animateToPage(entry.key),
+          child: Container(
+            width: 6,
+            height: 6,
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color:
+                (Colors.white).withOpacity(_current == entry.key ? 0.9 : 0.4),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
