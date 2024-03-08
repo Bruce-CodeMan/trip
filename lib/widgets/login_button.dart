@@ -34,7 +34,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-      height: 5,
+      height: 45,
       onPressed: isPressed ? onPressed : null,
       color: Colors.orange,
       disabledColor: Colors.white54,

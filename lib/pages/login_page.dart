@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:trip/widgets/input_widget.dart';
 import 'package:trip/widgets/login_button.dart';
 
+import '../utils/string_util.dart';
+
 // Login Page
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -64,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
             "请输入账号",
             onChanged: (text){
               username = text;
+              _checkInput();
             },
           ),
           const SizedBox(height: 10,),
@@ -71,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
             "请输入密码",
             onChanged: (text) {
               password = text;
+              _checkInput();
             },
           ),
           const SizedBox(height: 45,),
@@ -90,6 +94,14 @@ class _LoginPageState extends State<LoginPage> {
 
   void _checkInput() {
     bool enable;
+    if(isNotEmpty(username) && isNotEmpty(password)) {
+      enable = true;
+    }else {
+      enable = false;
+    }
 
+    setState(() {
+      isPressed = enable;
+    });
   }
 }
