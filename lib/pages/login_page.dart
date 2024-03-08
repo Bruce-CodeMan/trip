@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trip/dao/login_dao.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 // Custom Imports
 import 'package:trip/widgets/input_widget.dart';
@@ -83,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
           LoginButton(
             title: "登录",
             isPressed: isPressed,
-            onPressed: () => _login(),
+            onPressed: () => _login(context),
           )
         ],
       ),
@@ -91,9 +92,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
 
-  void _login() async {
+  void _login(context) async {
     try {
       LoginDao.login(username: username!, password: password!);
+      NavigatorUtil.goToHome(context);
     } catch(e) {
       print("e: $e");
     }

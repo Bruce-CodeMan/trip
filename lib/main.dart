@@ -7,6 +7,7 @@ import 'package:trip/pages/login_page.dart';
 // Custom imports utils
 import 'package:trip/dao/login_dao.dart';
 import 'package:trip/utils/cache_util.dart';
+import 'package:trip/utils/screen_adapter.dart';
 
 void main() async{
   await dotenv.load(fileName: '.env');
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Trip',
       theme: ThemeData(
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder<dynamic>(
         future: Cache.preInit(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+          ScreenAdapter.init(context);
           if(snapshot.connectionState == ConnectionState.done) {
             if(LoginDao.getToken() != null) {
               return const HomePage();

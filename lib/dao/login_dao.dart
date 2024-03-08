@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:trip/utils/cache_util.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 // Login Data Access Object for handling login functionality
 class LoginDao{
@@ -59,7 +60,9 @@ class LoginDao{
   }
 
   // Static method to remove the auth_token from the cache.
+  // Navigator the LoginPage.
   static void logout() {
     Cache.getInstance().remove(token);
+    NavigatorUtil.goToLogin();
   }
 }
