@@ -90,11 +90,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+
   void _login() async {
-    var result = LoginDao.login(username: username!, password: password!);
-    print("result: $result");
+    try {
+      LoginDao.login(username: username!, password: password!);
+    } catch(e) {
+      print("e: $e");
+    }
+
   }
 
+  // Defines the function to evaluate the input fields.
   void _checkInput() {
     bool enable;
     if(isNotEmpty(username) && isNotEmpty(password)) {
@@ -102,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     }else {
       enable = false;
     }
-
+    // Call the setState function to update the UI with the new state.
     setState(() {
       isPressed = enable;
     });
