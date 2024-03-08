@@ -57,4 +57,9 @@ class LoginDao{
   static getToken() {
     return Cache.getInstance().get<String>(token);
   }
+
+  // Static method to remove the auth_token from the cache.
+  static void logout() {
+    Cache.getInstance().remove(token);
+  }
 }

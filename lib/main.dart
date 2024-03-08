@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:trip/pages/login_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+// Custom imports pages
+import 'package:trip/pages/home_page.dart';
+import 'package:trip/pages/login_page.dart';
+// Custom imports utils
+import 'package:trip/dao/login_dao.dart';
+import 'package:trip/utils/cache_util.dart';
 
 void main() async{
   await dotenv.load(fileName: '.env');
@@ -17,7 +23,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage()
+      home: FutureBuilder<dynamic>(
+        future: Cache.preInit(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+          if(snapshot.connectionState == ConnectionState.done) {
+            if(LoginDao.getToken() != null) {
+              return const HomePage();
+            }else {
+              return const LoginPage();
+            }
+          }else {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator(),),
+            );
+          }
+        },
+      )
     );
   }
 }
