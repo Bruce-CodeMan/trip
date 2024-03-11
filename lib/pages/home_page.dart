@@ -8,6 +8,7 @@ import 'package:trip/models/home_model.dart';
 import 'package:trip/widgets/banner_widget.dart';
 import 'package:trip/widgets/grid_nav_widget.dart';
 import 'package:trip/widgets/local_nav_widget.dart';
+import 'package:trip/widgets/sub_nav_widget.dart';
 
 // HomePage is a StatefulWidget which allows for mutable state within the widget
 class HomePage extends StatefulWidget {
@@ -58,6 +59,7 @@ class _HomePageState extends State<HomePage>
       BannerWidget(bannerList: bannerList),
       LocalNavWidget(localNavList: localNavList),
       if(gridNav != null) GridNavWidget(gridNav: gridNav!),
+      SubNavWidget(subNav: subNavList),
       _logoutBtn,
       Text(gridNav?.flight?.item1?.title ?? ""),
       const SizedBox(
