@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:trip/utils/navigator_util.dart';
 
+import '../models/home_model.dart';
 import '../utils/cache_util.dart';
 
 // Home Data Access Object for home functionality.
@@ -15,7 +15,7 @@ class HomeDao{
   static String authToken = dotenv.get("AUTH_TOKEN", fallback: "");
   static String token = dotenv.get("Token", fallback: "");
 
-  static Future<String?> fetch() async {
+  static Future<HomeModel> fetch() async {
     var url = Uri.parse(homeApi);
     final response = await http.get(
       url,
@@ -30,15 +30,13 @@ class HomeDao{
     Utf8Decoder utf8 = const Utf8Decoder();
     String res = utf8.convert(response.bodyBytes);
 
-    debugPrint(res);
-
     // Handles the response base on the statusCode.
     if(response.statusCode == 200) {
-      return res;
+      var result = json.decode(res);
+      return HomeModel.deserialization(result['data']);
     }else {
       if(response.statusCode == 401) {
         NavigatorUtil.goToLogin();
-        return null;
       }
 
       throw Exception(res);

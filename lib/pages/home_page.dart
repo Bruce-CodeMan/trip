@@ -4,10 +4,14 @@ import 'package:trip/dao/home_dao.dart';
 // Custom imports:
 // Imports the login data access object to handle the logout functionality.
 import 'package:trip/dao/login_dao.dart';
+import 'package:trip/models/home_model.dart';
 import 'package:trip/widgets/banner_widget.dart';
+import 'package:trip/widgets/local_nav_widget.dart';
 
 // HomePage is a StatefulWidget which allows for mutable state within the widget
 class HomePage extends StatefulWidget {
+
+  static Config? config;
   const HomePage({super.key});
 
   @override
@@ -21,14 +25,12 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin{
 
   static const appBarScrollOffset = 100;
-  final bannerList = [
-    "https://www.devio.org/io/flutter_app/img/banner/100h10000000q7ght9352.jpg",
-    "https://o.devio.org/images/fa/cat-4098058__340.webp",
-    "https://o.devio.org/images/fa/photo-1601513041797-a79a526a521e.webp",
-    "https://o.devio.org/images/other/as-cover.png"
-  ];
-
   double appBarAlpha = 0;
+  List<CommonModel> localNavList = [];
+  List<CommonModel> bannerList = [];
+  List<CommonModel> subNavList = [];
+  GridNav? gridNav;
+  SalesBox? salesBox;
   
   // _logoutBtn is a getter that creates an ElevatedButton for logging out.
   get _logoutBtn => ElevatedButton(onPressed: (){
@@ -53,8 +55,9 @@ class _HomePageState extends State<HomePage>
   get _listView => ListView(
     children: [
       BannerWidget(bannerList: bannerList),
+      LocalNavWidget(localNavList: localNavList),
       _logoutBtn,
-      Text(res),
+      Text(gridNav?.flight?.item1?.title ?? ""),
       const SizedBox(
         height: 800,
         child: ListTile(
@@ -112,15 +115,19 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  var res = "";
   Future<void> _handleRefresh() async{
     try{
-      String? result = await HomeDao.fetch();
+      HomeModel result = await HomeDao.fetch();
       setState(() {
-        res = result ?? "";
+        HomePage.config = result.config;
+        localNavList = result.localNavList ?? [];
+        bannerList = result.bannerList ?? [];
+        subNavList = result.subNavList ?? [];
+        gridNav = result.gridNav;
+        salesBox = result.salesBox;
       });
     }catch(e) {
-      debugPrint(e.toString());
+      debugPrint("error: ${e.toString()}");
     }
 
   }
