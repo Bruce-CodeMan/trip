@@ -13,7 +13,7 @@ class SubNavWidget extends StatelessWidget {
 
   /// If the list is null, the widget will not display any items.
   final List<CommonModel>? subNav;
-  const SubNavWidget({super.key, required this.subNav});
+  const SubNavWidget({super.key, this.subNav});
 
   @override
   Widget build(BuildContext context) {
