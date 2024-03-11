@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip/dao/home_dao.dart';
 
 // Custom imports:
 // Imports the login data access object to handle the logout functionality.
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage>
     children: [
       BannerWidget(bannerList: bannerList),
       _logoutBtn,
+      Text(res),
       const SizedBox(
         height: 800,
         child: ListTile(
@@ -61,6 +63,13 @@ class _HomePageState extends State<HomePage>
       )
     ],
   );
+
+
+  @override
+  void initState() {
+    super.initState();
+    _handleRefresh();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,18 +101,28 @@ class _HomePageState extends State<HomePage>
   bool get wantKeepAlive => true;
 
   void _onScroll(double offset) {
-    print("offset: $offset");
     double alpha = offset / appBarScrollOffset;
     if(alpha < 0) {
       alpha = 0;
     }else if(alpha > 1) {
       alpha = 1;
     }
-    print("alpha: $alpha");
     setState(() {
       appBarAlpha = alpha;
     });
-    print("appBarAlpha: $appBarAlpha");
+  }
+
+  var res = "";
+  Future<void> _handleRefresh() async{
+    try{
+      String? result = await HomeDao.fetch();
+      setState(() {
+        res = result ?? "";
+      });
+    }catch(e) {
+      debugPrint(e.toString());
+    }
+
   }
 }
 
