@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trip/models/home_model.dart';
 
+/// A custom widget which displays a grid navigation layout.
 class GridNavWidget extends StatelessWidget {
   final GridNav gridNav;
   const GridNavWidget({super.key, required this.gridNav});
@@ -17,7 +18,7 @@ class GridNavWidget extends StatelessWidget {
     ));
   }
 
-  /// 从上到下添加三个导航条
+  /// This method creates grid navigation items from top to bottom.
   _gridNavItems(BuildContext context) {
     List<Widget> items = [];
     items.add(_gridNavItem(context, gridNav.hotel!, true));
@@ -26,7 +27,7 @@ class GridNavWidget extends StatelessWidget {
     return items;
   }
 
-  /// 添加导航条
+  /// This method creates a single navigation bar with a gradient background.
   _gridNavItem(BuildContext context, Hotel hotel, bool first) {
     List<Widget> items = [];
     items.add(_mainItem(context, hotel.mainItem!));
@@ -49,7 +50,7 @@ class GridNavWidget extends StatelessWidget {
     );
   }
 
-  /// 左侧大卡片
+  /// This method creates the main item on the left side of the navigation bar.
   _mainItem(BuildContext context, CommonModel model) {
     return _wrapGesture(
         context,
@@ -76,7 +77,7 @@ class GridNavWidget extends StatelessWidget {
     );
   }
 
-  /// 手势包裹器
+  /// This method wraps a widget with a gesture detector for handling taps.
   Widget _wrapGesture(BuildContext context, Widget widget, CommonModel model) {
     return GestureDetector(
       onTap: (){
@@ -86,7 +87,7 @@ class GridNavWidget extends StatelessWidget {
     );
   }
 
-  /// 右侧的上下Item
+  /// This method creates the double items on the right side of the navigation bar.
   _doubleItem(BuildContext context, CommonModel topItem, CommonModel bottomItem) {
     return Column(
       children: [
@@ -96,7 +97,9 @@ class GridNavWidget extends StatelessWidget {
     );
   }
 
-  /// 上下item, first是否为第一个item
+  /// This method creates a single item with an optional border.
+  ///
+  /// Add border to the left and bottom if it's the first item.
   _item(BuildContext context, CommonModel item, bool first) {
     BorderSide borderSide = const BorderSide(width: 0.8, color: Colors.white);
     return Container(
