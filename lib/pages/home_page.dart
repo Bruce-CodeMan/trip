@@ -7,6 +7,7 @@ import 'package:trip/dao/login_dao.dart';
 import 'package:trip/models/home_model.dart';
 import 'package:trip/widgets/banner_widget.dart';
 import 'package:trip/widgets/grid_nav_widget.dart';
+import 'package:trip/widgets/loading_container.dart';
 import 'package:trip/widgets/local_nav_widget.dart';
 import 'package:trip/widgets/sales_box_widget.dart';
 import 'package:trip/widgets/sub_nav_widget.dart';
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage>
   List<CommonModel> subNavList = [];
   GridNav? gridNav;
   SalesBox? salesBox;
+  bool _isLoading = true;
   
   // _logoutBtn is a getter that creates an ElevatedButton for logging out.
   get _logoutBtn => ElevatedButton(onPressed: (){
@@ -43,11 +45,12 @@ class _HomePageState extends State<HomePage>
   get _appBar => Opacity(
     opacity: appBarAlpha,
     child: Container(
+      padding: const EdgeInsets.only(top: 20),
       height: 80,
       decoration: const BoxDecoration(color: Colors.white),
       child: const Center(
         child: Padding(
-            padding: EdgeInsets.only(top: 40),
+            padding: EdgeInsets.only(top: 20),
           child: Text("首页"),
         ),
       ),
@@ -85,27 +88,33 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return Scaffold(
       backgroundColor: const Color(0xfff2f2f2),
-      body: Stack(
-        children: [
-          MediaQuery.removePadding(
-            removeTop: true,
-            context: context,
-            child: NotificationListener(
-              onNotification: (scrollNotification){
-                if(scrollNotification is ScrollUpdateNotification &&
-                    scrollNotification.depth == 0) {
-                  _onScroll(scrollNotification.metrics.pixels);
-                }
-                return false;
-              },
-              child: _listView,
-            )
-          ),
-          _appBar
-        ],
+      body: LoadingContainer(
+        isLoading: _isLoading,
+        child: Stack(
+          children: [_contentView, _appBar],
+        ),
       ),
     );
   }
+
+  get _contentView => MediaQuery.removePadding(
+      removeTop: true,
+      context: context,
+      child: RefreshIndicator(
+        color: Colors.blue,
+        onRefresh: _handleRefresh,
+        child: NotificationListener(
+          onNotification: (scrollNotification){
+            if(scrollNotification is ScrollUpdateNotification &&
+                scrollNotification.depth == 0) {
+              _onScroll(scrollNotification.metrics.pixels);
+            }
+            return false;
+          },
+          child: _listView,
+        ),
+      )
+  );
 
   @override
   bool get wantKeepAlive => true;
@@ -132,9 +141,13 @@ class _HomePageState extends State<HomePage>
         subNavList = result.subNavList ?? [];
         gridNav = result.gridNav;
         salesBox = result.salesBox;
+        _isLoading = false;
       });
     }catch(e) {
       debugPrint("error: ${e.toString()}");
+      setState(() {
+        _isLoading = false;
+      });
     }
 
   }
