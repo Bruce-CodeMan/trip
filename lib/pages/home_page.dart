@@ -5,12 +5,19 @@ import 'package:trip/dao/home_dao.dart';
 // Imports the login data access object to handle the logout functionality.
 import 'package:trip/dao/login_dao.dart';
 import 'package:trip/models/home_model.dart';
+import 'package:trip/pages/search_page.dart';
+import 'package:trip/utils/navigator_util.dart';
 import 'package:trip/widgets/banner_widget.dart';
 import 'package:trip/widgets/grid_nav_widget.dart';
 import 'package:trip/widgets/loading_container.dart';
 import 'package:trip/widgets/local_nav_widget.dart';
 import 'package:trip/widgets/sales_box_widget.dart';
+import 'package:trip/widgets/search_bar_widget.dart';
 import 'package:trip/widgets/sub_nav_widget.dart';
+
+import '../utils/shadow_wrap.dart';
+
+const searchBarDefaultText = "Bruce";
 
 // HomePage is a StatefulWidget which allows for mutable state within the widget
 class HomePage extends StatefulWidget {
@@ -42,21 +49,37 @@ class _HomePageState extends State<HomePage>
     LoginDao.logout();
   }, child: const Text("退出"));
 
-  get _appBar => Opacity(
-    opacity: appBarAlpha,
-    child: Container(
-      padding: const EdgeInsets.only(top: 20),
-      height: 80,
-      decoration: const BoxDecoration(color: Colors.white),
-      child: const Center(
-        child: Padding(
-            padding: EdgeInsets.only(top: 20),
-          child: Text("首页"),
-        ),
-      ),
-    ),
-
-  );
+  get _appBar {
+    // 获取刘海屏的实际的Top安全边距
+    double top = MediaQuery.of(context).padding.top;
+    return Column(
+      children: [
+        shadowWrap(child: Container(
+          padding: EdgeInsets.only(top: top),
+          height: 60 + top,
+          decoration: BoxDecoration(
+            color: Color.fromARGB((appBarAlpha * 255).toInt(), 255, 255, 255),
+          ),
+          child: SearchBarWidget(
+            searchBarType: appBarAlpha > 0.2
+                ? SearchBarType.homeLight
+                : SearchBarType.home,
+            inputCallback: _jumpToSearch,
+            defaultText: searchBarDefaultText,
+            rightButtonCallback: (){
+              LoginDao.logout();
+            },
+          ),
+        )),
+        Container(
+          height: appBarAlpha > 0.2 ? 0.5 : 0,
+          decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 0.5)]
+          ),
+        )
+      ],
+    );
+  }
   
   get _listView => ListView(
     children: [
@@ -150,6 +173,10 @@ class _HomePageState extends State<HomePage>
       });
     }
 
+  }
+
+  void _jumpToSearch() {
+    NavigatorUtil.push(context, const SearchPage());
   }
 }
 
