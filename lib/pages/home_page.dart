@@ -8,6 +8,7 @@ import 'package:trip/models/home_model.dart';
 import 'package:trip/widgets/banner_widget.dart';
 import 'package:trip/widgets/grid_nav_widget.dart';
 import 'package:trip/widgets/local_nav_widget.dart';
+import 'package:trip/widgets/sales_box_widget.dart';
 import 'package:trip/widgets/sub_nav_widget.dart';
 
 // HomePage is a StatefulWidget which allows for mutable state within the widget
@@ -60,6 +61,7 @@ class _HomePageState extends State<HomePage>
       LocalNavWidget(localNavList: localNavList),
       if(gridNav != null) GridNavWidget(gridNav: gridNav!),
       SubNavWidget(subNav: subNavList),
+      if(salesBox != null) SalesBoxWidget(salesBox: salesBox!),
       _logoutBtn,
       Text(gridNav?.flight?.item1?.title ?? ""),
       const SizedBox(
@@ -82,6 +84,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      backgroundColor: const Color(0xfff2f2f2),
       body: Stack(
         children: [
           MediaQuery.removePadding(
