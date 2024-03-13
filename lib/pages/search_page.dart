@@ -6,6 +6,7 @@ import 'package:trip/models/search_model.dart';
 import 'package:trip/utils/navigator_util.dart';
 import 'package:trip/utils/shadow_wrap.dart';
 import 'package:trip/widgets/search_bar_widget.dart';
+import 'package:trip/widgets/search_item_widget.dart';
 
 // SearchPage is a statefulWidget which allows for mutable state within the widget.
 class SearchPage extends StatefulWidget {
@@ -36,7 +37,10 @@ class _SearchPageState extends State<SearchPage> {
           defaultText: widget.keyword,
           hint: widget.hint,
           leftButtonCallback: () => NavigatorUtil.pop(context),
-          rightButtonCallback: (){},
+          rightButtonCallback: (){
+            // 收起键盘
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
           onChanged: _onTextChange,
         ),
       ),
@@ -65,6 +69,15 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.keyword != null) {
+      _onTextChange(widget.keyword!);
+    }
+  }
+
   void _onTextChange(String value) async {
     try {
       SearchModel? model = await SearchDao.fetch(value);
@@ -83,6 +96,7 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _item(int index) {
     var item = searchModel?.data?[index];
-    return Text(jsonEncode(item?.serialization()));
+    if(item == null || searchModel == null) return Container();
+    return SearchItemWidget(searchItem: item, searchModel: searchModel!);
   }
 }
