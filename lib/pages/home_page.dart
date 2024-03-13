@@ -157,20 +157,24 @@ class _HomePageState extends State<HomePage>
   Future<void> _handleRefresh() async{
     try{
       HomeModel result = await HomeDao.fetch();
-      setState(() {
-        HomePage.config = result.config;
-        localNavList = result.localNavList ?? [];
-        bannerList = result.bannerList ?? [];
-        subNavList = result.subNavList ?? [];
-        gridNav = result.gridNav;
-        salesBox = result.salesBox;
-        _isLoading = false;
-      });
+      if(mounted){
+        setState(() {
+          HomePage.config = result.config;
+          localNavList = result.localNavList ?? [];
+          bannerList = result.bannerList ?? [];
+          subNavList = result.subNavList ?? [];
+          gridNav = result.gridNav;
+          salesBox = result.salesBox;
+          _isLoading = false;
+        });
+      }
     }catch(e) {
       debugPrint("error: ${e.toString()}");
-      setState(() {
-        _isLoading = false;
-      });
+      if(mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
 
   }
