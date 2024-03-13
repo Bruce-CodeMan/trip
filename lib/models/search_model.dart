@@ -31,9 +31,9 @@ class SearchItem{
   String? word;
   String? type;
   String? price;
-  String? zoneName;
+  String? zonename;
   String? star;
-  String? districtName;
+  String? districtname;
   String? url;
 
   SearchItem({
@@ -41,9 +41,9 @@ class SearchItem{
     word,
     type,
     price,
-    zoneName,
+    zonename,
     star,
-    districtName,
+    districtname,
     url
   });
 
@@ -52,9 +52,9 @@ class SearchItem{
     word = json["word"];
     type = json["type"];
     price = json["price"];
-    zoneName = json["zonename"];
+    zonename = json["zonename"];
     star = json["star"];
-    districtName = json["districtname"];
+    districtname = json["districtname"];
     url = json["url"];
   }
 
@@ -64,9 +64,9 @@ class SearchItem{
     data["word"] = word;
     data["type"] = type;
     data["price"] = price;
-    data["zonename"] = zoneName;
+    data["zonename"] = zonename;
     data["star"] = star;
-    data["districtname"] = districtName;
+    data["districtname"] = districtname;
     data["url"] = url;
     return data;
   }

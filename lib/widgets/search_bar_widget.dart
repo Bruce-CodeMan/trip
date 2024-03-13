@@ -140,7 +140,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
        inputBoxColor = const Color(0xffededed);
     }
     return Container(
-      height: 30,
+      height: 36,
       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       decoration: BoxDecoration(
         color: inputBoxColor,

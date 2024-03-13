@@ -39,7 +39,7 @@ class _TabNavigatorState extends State<TabNavigator> {
       body: PageView(
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [HomePage(), SearchPage(), TravelPage(), MyPage()],
+        children: const [HomePage(), SearchPage(hideLeft: true), TravelPage(), MyPage()],
       ),
 
       // The BottomNavigationBar which allows the users to select a tab to view.

@@ -29,7 +29,6 @@ class SearchDao{
     Utf8Decoder utf8 = const Utf8Decoder();
     String res = utf8.convert(response.bodyBytes);
 
-    debugPrint("res: $res");
 
     if(response.statusCode == 200) {
       var result = json.decode(res);
