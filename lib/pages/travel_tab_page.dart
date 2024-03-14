@@ -1,7 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:trip/widgets/loading_container.dart';
+import 'package:trip/widgets/travel_item_widget.dart';
 
 import '../dao/travel_dao.dart';
 import '../models/travel_tab_model.dart';
@@ -15,35 +16,64 @@ class TravelTabPage extends StatefulWidget {
   State<TravelTabPage> createState() => _TravelTabPageState();
 }
 
-class _TravelTabPageState extends State<TravelTabPage> {
+class _TravelTabPageState extends State<TravelTabPage> with AutomaticKeepAliveClientMixin{
 
   List<TravelItem> travelItems = [];
   int pageIndex = 1;
   bool _isLoading = true;
   final String pageSize = dotenv.get("TRAVEL_PAGE_SIZE", fallback: "10");
+  final ScrollController _scrollController = ScrollController();
+
+  get _gridView => MasonryGridView.count(
+    controller: _scrollController,
+    crossAxisCount: 2,    // 2列布局
+    itemCount: travelItems.length,
+    itemBuilder: ((BuildContext context, int index) =>
+      TravelItemWidget(item: travelItems[index], index: index))
+  );
 
   @override
   void initState() {
     _loadData();
+    _scrollController.addListener(() {
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _loadData(loadMore: true);
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [Text('groupChannelCode: ${jsonEncode(travelItems)}')],
+      body: LoadingContainer(
+        isLoading: _isLoading,
+        child: RefreshIndicator(
+          onRefresh: _loadData,
+          child: MediaQuery.removePadding(removeTop: true, context: context, child: _gridView),
+        ),
       ),
     );
   }
 
-  void _loadData({loadMore=false}) {
-    TravelDao.getTravels(
-        widget.groupChannelCode,
-        pageIndex,
-        int.parse(pageSize)
-    ).then((TravelTabModel? model){
+  Future<void> _loadData({loadMore=false}) async{
+    if(loadMore) {
+      pageIndex++;
+    }else {
+      pageIndex = 1;
+    }
+    try{
+      TravelTabModel? model = await TravelDao.getTravels(widget.groupChannelCode, pageIndex, int.parse(pageSize));
       List<TravelItem> items = _filterItems(model?.list);
+      if(loadMore && items.isEmpty) {
+        pageIndex--;
+      }
       setState(() {
         _isLoading = false;
         if(loadMore) {
@@ -52,10 +82,14 @@ class _TravelTabPageState extends State<TravelTabPage> {
           travelItems = items;
         }
       });
-    }).catchError((e){
+    }catch(e) {
+      debugPrint("e: $e");
       _isLoading = false;
-      debugPrint(e.toString());
-    });
+      if(loadMore) {
+        pageIndex--;
+      }
+    }
+
   }
 
   /// Handles the list if the article is null
@@ -69,4 +103,8 @@ class _TravelTabPageState extends State<TravelTabPage> {
     }
     return filterItems;
   }
+
+  @override
+  bool get wantKeepAlive => true;
+
 }
