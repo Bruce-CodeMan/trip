@@ -1,3 +1,8 @@
+<!--
+ * @Date: 2024-03-07 10:12:55
+ * @Author: Bruce Hsu
+ * @Description: 
+-->
 <a href="https://flutter.dev/">
   <h1 align="center">
     <picture>
@@ -35,10 +40,10 @@ To run this project on your local machine, follow these simple steps:
 ## Home Page & Search Page & Discovery Page & My Page
 
 <p align="center">
-<img src="./images/home_page.jpg" width="100">
-<img src="./images/search_page.jpg" width="100">
-<img src="./images/search_page.jpg" width="100">
-<img src="./images/my_page.jpg" width="100">
+<img src="./images/home_page.jpg" width="150">
+<img src="./images/search_page.jpg" width="150">
+<img src="./images/search_page.jpg" width="150">
+<img src="./images/my_page.jpg" width="150">
 </p>
 
 ### Home Tab
