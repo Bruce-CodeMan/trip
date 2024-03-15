@@ -107,7 +107,14 @@ class _BruceWebViewState extends State<BruceWebView> {
       ..loadRequest(Uri.parse(url!));
   }
 
-  void _handleBackForbid() {}
+  /// 隐藏h5登录的返回键
+  void _handleBackForbid() {
+    const jsStr =
+      'var element = document.querySelector(".animationComponent.rn-view");element.style.display="none";';
+    if(widget.backForbid ?? false) {
+      controller.runJavaScript(jsStr);
+    }
+  }
 
   /// 判断h5是否返回主页
   bool _isToMain(String? url) {
