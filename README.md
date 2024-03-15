@@ -6,7 +6,8 @@
     </picture>
   </h1>
 </a>
-
+<p>
 <img src="./svgs/flutter_version.svg"/>
 <img src="./svgs/dart_version.svg"/>
 <img src="./svgs/shared_preferences.svg"/>
+</p>
