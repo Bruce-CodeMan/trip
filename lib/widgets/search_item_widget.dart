@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 import '../models/search_model.dart';
 
@@ -96,7 +97,9 @@ class SearchItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        NavigatorUtil.jumpToH5(url: searchItem.url, title: '详情');
+      },
       child: _item,
     );
   }

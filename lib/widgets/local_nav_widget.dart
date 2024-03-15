@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 import '../models/home_model.dart';
 
@@ -43,7 +44,14 @@ class LocalNavWidget extends StatelessWidget {
   /// The [GestureDetector] wraps the item allowing it to be tapped with an empty callback.
   Widget _item(BuildContext context, CommonModel model) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        NavigatorUtil.jumpToH5(
+          url: model.url,
+          title: model.title,
+          statusBarColor: model.statusBarColor,
+          hideAppBar: model.hideAppBar
+        );
+      },
       child: Column(
         children: [
           Image.network(model.icon!, width: 32, height: 32,),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/home_model.dart';
+import '../utils/navigator_util.dart';
 
 /// A custom widget which displays a navigation sub-menu based on a provided list
 /// of [CommonModel]
@@ -71,7 +72,14 @@ class SubNavWidget extends StatelessWidget {
   _item(BuildContext context, CommonModel model) {
     return Expanded(
       child: GestureDetector(
-        onTap: (){},
+        onTap: (){
+          NavigatorUtil.jumpToH5(
+            url: model.url,
+            title: model.title,
+            statusBarColor: model.statusBarColor,
+            hideAppBar: model.hideAppBar
+          );
+        },
         child: Column(
           children: [
             Image.network(

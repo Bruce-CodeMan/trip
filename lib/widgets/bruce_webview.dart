@@ -128,13 +128,13 @@ class _BruceWebViewState extends State<BruceWebView> {
 
     if(widget.hideAppBar ?? false) {
       return Container(
-        color: backButtonColor,
+        color: backgroundColor,
         height: top,
       );
     }
 
     return Container(
-      color: backButtonColor,
+      color: backgroundColor,
       padding: EdgeInsets.fromLTRB(0, top, 0, 10),
       child: FractionallySizedBox(
         widthFactor: 1,
@@ -151,6 +151,9 @@ class _BruceWebViewState extends State<BruceWebView> {
 
   _backButton(Color backButtonColor) {
     return GestureDetector(
+      onTap: (){
+        NavigatorUtil.pop(context);
+      },
       child: Container(
         margin: const EdgeInsets.only(left: 10),
         child: Icon(

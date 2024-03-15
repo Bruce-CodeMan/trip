@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 // Custom imports for different pages within the app
 import 'package:trip/pages/home_page.dart';
 import 'package:trip/pages/login_page.dart';
+import 'package:trip/widgets/bruce_webview.dart';
 
 /// NavigatorUtil class to handle navigation throughout the app.
 class NavigatorUtil {
   /// A static BuildContext variable to keep track of the current context.
+  /// Need declares the _context in the tabNavigator
   static BuildContext? _context;
 
   /// Static method to update the current context stored in this utility class
@@ -41,5 +43,38 @@ class NavigatorUtil {
     }else {
       SystemNavigator.pop();
     }
+  }
+
+  /// Static method to jump to the H5 page
+  static jumpToH5({
+    BuildContext? context,
+    String? url,
+    String? title,
+    bool? hideAppBar,
+    String? statusBarColor
+  }) {
+    if(url == null) {
+      debugPrint("url is null jumpToH5 failed.");
+      return;
+    }
+    BuildContext? safeContext;
+    if(context != null) {
+      safeContext = context;
+    }else if(_context?.mounted ?? false) {
+      safeContext = _context;
+    }else {
+      debugPrint("context is null jumpToH5 failed.");
+      return;
+    }
+    Navigator.push(
+      safeContext!,
+      MaterialPageRoute(
+        builder: (context) => BruceWebView(
+          url: url,
+          title: title,
+          hideAppBar: hideAppBar,
+          statusBarColor: statusBarColor,
+        ))
+    );
   }
 }

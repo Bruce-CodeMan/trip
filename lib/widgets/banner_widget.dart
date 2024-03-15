@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:trip/models/home_model.dart';
+import 'package:trip/utils/navigator_util.dart';
 import 'package:trip/utils/screen_adapter.dart';
 
 /// A custom Banner widget which displays a carousel slider of images(banners)
@@ -66,7 +67,7 @@ class _BannerWidgetState extends State<BannerWidget> {
   Widget _tabImage(CommonModel model, double width){
     return GestureDetector(
       onTap: (){
-        //TODO, NavigatorUtil
+        NavigatorUtil.jumpToH5(url: model.url, title: model.title, hideAppBar: model.hideAppBar);
       },
       child: Image.network(model.icon!, width: width, fit: BoxFit.cover,),
     );

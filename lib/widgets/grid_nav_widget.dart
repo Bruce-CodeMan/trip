@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trip/models/home_model.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 /// A custom widget which displays a grid navigation layout.
 class GridNavWidget extends StatelessWidget {
@@ -81,7 +82,12 @@ class GridNavWidget extends StatelessWidget {
   Widget _wrapGesture(BuildContext context, Widget widget, CommonModel model) {
     return GestureDetector(
       onTap: (){
-
+        NavigatorUtil.jumpToH5(
+          url: model.url,
+          title: model.title,
+          statusBarColor: model.statusBarColor,
+          hideAppBar: model.hideAppBar
+        );
       },
       child: widget,
     );

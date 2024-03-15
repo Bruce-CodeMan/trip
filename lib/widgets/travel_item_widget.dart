@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../models/travel_tab_model.dart';
+import '../utils/navigator_util.dart';
 
 class TravelItemWidget extends StatelessWidget {
 
@@ -79,7 +80,11 @@ class TravelItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: (){
-        //TODO jumpToH5
+        String? url = _findJumpUrl();
+        NavigatorUtil.jumpToH5(
+          url: url,
+          title: "详情"
+        );
       },
       child: Card(
         child: PhysicalModel(
@@ -151,4 +156,17 @@ class TravelItemWidget extends StatelessWidget {
         ? '未知'
         : item.article?.pois?[0].poiName ?? "未知";
   }
+
+  String? _findJumpUrl() {
+    if(item.article?.urls?.isEmpty ?? false) {
+      return null;
+    }
+    for (var url in item.article!.urls!) {
+      if(url.h5Url != null) {
+        return url.h5Url;
+      }
+    }
+    return null;
+  }
+
 }

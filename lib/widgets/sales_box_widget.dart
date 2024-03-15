@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trip/utils/navigator_util.dart';
 
 import '../models/home_model.dart';
 
@@ -78,7 +79,14 @@ class SalesBoxWidget extends StatelessWidget {
     BorderSide borderSide = const BorderSide(width: 0.8, color: Color(0xfff2f2f2));
     double width = MediaQuery.of(context).size.width / 2 - 10;
     return GestureDetector(
-      onTap: (){},
+      onTap: (){
+        NavigatorUtil.jumpToH5(
+          url: model.url,
+          title: model.title,
+          statusBarColor: model.statusBarColor,
+          hideAppBar: model.hideAppBar
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           border: Border(
