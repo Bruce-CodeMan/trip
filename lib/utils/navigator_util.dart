@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Custom imports for different pages within the app
 import 'package:trip/pages/home_page.dart';
@@ -37,6 +38,8 @@ class NavigatorUtil {
   static pop(BuildContext context) {
     if(Navigator.canPop(context)) {
       Navigator.pop(context);
+    }else {
+      SystemNavigator.pop();
     }
   }
 }

@@ -40,6 +40,7 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin{
     super.initState();
     _controller = TabController(length: 0, vsync: this);
     TravelDao.getCategory().then((TravelCategoryModel? model) {
+      // TabBar空白的问题
       _controller = TabController(length: model?.tabs.length ?? 0, vsync: this);
       setState(() {
         tabs = model?.tabs ?? [];
